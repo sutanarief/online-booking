@@ -22,12 +22,19 @@ const getUsers = async () => {
   }
 }
 
-const login = async ({email, username}) => {
+const login = async ({ email, username }) => {
   try {
     const result = await model.User.findOne({
-      attributes: ["password", "email", "username"],
+      attributes: [
+        "id",
+        "password",
+        "email",
+        "username",
+        "company_name",
+        "role"
+      ],
       where: {
-        [Op.or]: [{ email }, { username }]
+        email
       }
     })
     return result

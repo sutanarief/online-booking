@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const bcrypt = require('bcrypt')
 const db = require('../config/config');
+const Role = require('./Role');
 
 const User = db.define('User', {
   id: {
@@ -35,7 +36,11 @@ const User = db.define('User', {
   },
   role: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: false,
+    references: {
+      model: Role,
+      key: 'id'
+    }
   },
   company_name: {
     type: DataTypes.STRING,
@@ -52,5 +57,8 @@ const User = db.define('User', {
     }
   }
 });
+
+User.belongsTo(Role, { foreignKey: 'role', as: 'role_label' })
+// User.hasMany(Event, { foreignKey: 'vendor_id', as: 'events' });
 
 module.exports = User;
